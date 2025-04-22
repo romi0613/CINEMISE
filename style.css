@@ -1,0 +1,234 @@
+
+body {
+  background: #000;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  overflow: hidden;
+}
+.nav-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+  font-size: 0.9rem;
+}
+.nav-top .logo {
+  font-weight: 300;
+}
+.nav-top .menu a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 300;
+}
+.intro-content {
+  text-align: center;
+  margin-top: 5rem;
+}
+.intro-content .stacked-images {
+  position: relative;
+  height: 250px;
+  width: 200px;
+  margin: 0 auto 2rem;
+}
+.intro-content .stacked-images img {
+  position: absolute;
+  width: 100%;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  transform: rotate(0deg);
+}
+.intro-content .stacked-images img:nth-child(2) {
+  transform: rotate(8deg) translateY(-5px);
+  z-index: -1;
+}
+.intro-content .stacked-images img:nth-child(3) {
+  transform: rotate(-8deg) translateY(5px);
+  z-index: -2;
+}
+.intro-content h1 {
+  font-size: 4.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.intro-content h1 span {
+  font-weight: 700;
+}
+.intro-content p {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: #ccc;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+#loader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-family: 'Arial', sans-serif;
+}
+#loader .percent {
+  font-size: 7rem;
+  color: white;
+  font-weight: bold;
+}
+#loader .bar {
+  width: 2px;
+  height: 7rem;
+  background: white;
+  margin-left: 1rem;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.intro-content .stacked-images {
+  position: relative;
+  height: 320px;
+  width: 250px;
+  margin: 0 auto 2rem;
+}
+
+.intro {
+  animation: fadeDown 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+@keyframes fadeDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gallery {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: #000;
+}
+.gallery-title {
+  font-size: 4rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+.gallery-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+.gallery-card {
+  width: 240px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+.gallery-card img {
+  width: 100%;
+  border-radius: 4px;
+}
+.gallery-card p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #ccc;
+}
+.gallery-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-content .stacked-images.expanded img:nth-child(1) {
+  transform: translateX(-220px) rotate(-5deg);
+}
+.intro-content .stacked-images.expanded img:nth-child(2) {
+  transform: translateX(0px) rotate(0deg);
+}
+.intro-content .stacked-images.expanded img:nth-child(3) {
+  transform: translateX(220px) rotate(5deg);
+}
+.intro-content .stacked-images img {
+  transition: all 1s ease-in-out;
+}
+
+.featured-gallery .gallery-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem 0;
+  border-top: 1px solid #333;
+  margin-top: 4rem;
+  color: white;
+}
+.featured-gallery .gallery-footer h2 {
+  font-size: 6rem;
+  margin: 0;
+}
+.featured-gallery .gallery-footer h3 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.poster-track {
+  display: flex;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 1rem 4rem 4rem;
+  scroll-snap-type: x mandatory;
+}
+.poster-track img {
+  width: auto;
+  max-height: 420px;
+  border-radius: 8px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  transition: transform 0.4s ease;
+}
+.poster-track img:hover {
+  transform: scale(1.05);
+}
+
+html, body {
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.stacked-images img {
+  transition: transform 0.5s ease-in-out;
+}
+.stacked-images img:hover {
+  transform: scale(1.25) rotate(3deg);
+  z-index: 10;
+}
+
+.stacked-images img {
+  transition: transform 0.5s ease-in-out;
+}
+.stacked-images img:hover {
+  transform: scale(1.5) rotate(3deg);
+  z-index: 10;
+}
+
