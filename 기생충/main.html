@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>기생충</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 🔙 뒤로가기 버튼 -->
+  <a href="../../index.html" class="back-btn">← BACK</a>
+
+  <div class="video-wrapper">
+    <video id="backgroundVideo" autoplay loop playsinline muted>
+      <source src="parasite.mp4" type="video/mp4" />
+    </video>
+
+    <div class="content-overlay">
+      <div class="header-bar">
+        <div class="premier-info">
+          <span>Online Premier in</span>
+          <div class="countdown">
+            <div><strong>2</strong><span>days</span></div>
+            <div><strong>20</strong><span>hours</span></div>
+            <div><strong>48</strong><span>minutes</span></div>
+          </div>
+        </div>
+        <h1 class="logo">CineMise</h1>
+        <div class="nav-links">
+          <span>Unlimited Movies,<br>Endless Adventure</span>
+          <button class="month-btn">Best of the Month</button>
+        </div>
+      </div>
+
+      <button class="play-toggle" onclick="togglePlay()">⏸</button>
+      <button class="sound-toggle" onclick="toggleMute()">🔇</button>
+
+      <div class="left-info">
+        <div>👁 182k</div>
+        <div>⭐ 4.9</div>
+        <div>👍 96k</div>
+      </div>
+
+      <div class="footer-info">
+        <div class="title">
+          <h2>기생충<br></h2>
+          <h3>year<br>2019<h3>
+        </div>
+      </div>
+
+           <div class="right-gallery">
+        <a href="갤러리ex2/index.html" class="gallery-link">갤러리가기</a>
+
+              <div class="gallery-thumbs">
+                <img src="사진1.jpg" alt="scene1">
+                <img src="사진2.jpg" alt="scene2">
+                <img src="사진3.jpg" alt="scene3">
+              </div>
+            </a>
+            
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('backgroundVideo');
+    const playBtn = document.querySelector('.play-toggle');
+    const soundBtn = document.querySelector('.sound-toggle');
+
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+        playBtn.textContent = "⏸";
+      } else {
+        video.pause();
+        playBtn.textContent = "▶";
+      }
+    }
+
+    function toggleMute() {
+      video.muted = !video.muted;
+      soundBtn.textContent = video.muted ? "🔇" : "🔊";
+    }
+  </script>
+</body>
+</html>

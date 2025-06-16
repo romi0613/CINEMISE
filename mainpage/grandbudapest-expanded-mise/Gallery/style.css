@@ -1,0 +1,91 @@
+/* Global reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#000;
+  font-family:'Inter',sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* Page header */
+.page-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  background:#000;
+  border-bottom:1px solid #333;
+  position:fixed;
+  top:0;
+  width:100vw;
+  z-index:100;
+}
+.back-btn { color:#fff; text-decoration:none; font-size:1rem; }
+.header-nav a {
+  margin-left:30px; color:#fff; text-decoration:none; font-size:1rem;
+  transition:opacity 0.2s;
+}
+.header-nav a:hover { opacity:0.7; }
+
+/* Main frame */
+.frame {
+  position:relative;
+  display:flex;
+  width:90vw; height:70vh;
+  margin:120px auto 40px;
+  border:4px solid #444;
+  border-radius:8px;
+  overflow:hidden;
+  background:#111;
+  box-shadow:0 0 30px rgba(0,0,0,0.8);
+}
+
+/* Text panel */
+.panel-text {
+  width:45%;
+  padding:60px 40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.panel-text h1 {
+  font-size:3rem; margin-bottom:1rem; line-height:1.2;
+}
+.panel-text p {
+  font-size:1.1rem; line-height:1.6; opacity:0.85;
+}
+
+/* Image panel */
+.panel-image {
+  width:55%; background-size:cover; background-position:center; position:relative;
+}
+.panel-image::after {
+  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.3);
+}
+
+/* Thumbnail */
+.thumb-list {
+  position:absolute; top:50%; right:20px; transform:translateY(-50%);
+  display:flex; flex-direction:column; align-items:center;
+}
+.arrow {
+  font-size:1.5rem; color:#aaa; cursor:pointer; margin:10px 0; user-select:none;
+}
+#thumb {
+  width:100px; height:70px; object-fit:cover; border:2px solid #777;
+  border-radius:4px; box-shadow:0 0 8px rgba(0,0,0,0.5);
+  opacity:0.8; transition:transform 0.2s, opacity 0.2s;
+}
+#thumb:hover { transform:scale(1.05); opacity:1; }
+
+/* Footer large text */
+.footer-text {
+  width:90vw; margin:20px auto 60px; text-align:left;
+}
+.scene-number {
+  font-size:8rem; font-weight:700; display:inline-block; line-height:1;
+}
+.gallery-label {
+  font-size:4rem; font-weight:700; display:inline-block; margin-left:20px;
+}

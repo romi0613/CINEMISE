@@ -1,10 +1,26 @@
+/* ===== CINEMISE 전체 스타일 통합 (Intro + Loader + Gallery Slider + YouTube Section + Vote Section) ===== */
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   background: #000;
   font-family: 'Inter', sans-serif;
   color: white;
-  overflow: hidden;
+  overflow-x: hidden;
 }
+
+html, body {
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* NAV */
 .nav-top {
   display: flex;
   justify-content: space-between;
@@ -21,6 +37,8 @@ body {
   color: white;
   font-weight: 300;
 }
+
+/* INTRO CONTENT */
 .intro-content {
   text-align: center;
   margin-top: 5rem;
@@ -38,6 +56,7 @@ body {
   top: 0;
   left: 0;
   transform: rotate(0deg);
+  transition: transform 0.5s ease-in-out;
 }
 .intro-content .stacked-images img:nth-child(2) {
   transform: rotate(8deg) translateY(-5px);
@@ -46,6 +65,15 @@ body {
 .intro-content .stacked-images img:nth-child(3) {
   transform: rotate(-8deg) translateY(5px);
   z-index: -2;
+}
+.intro-content .stacked-images.expanded img:nth-child(1) {
+  transform: translateX(-220px) rotate(-5deg);
+}
+.intro-content .stacked-images.expanded img:nth-child(2) {
+  transform: translateX(0px) rotate(0deg);
+}
+.intro-content .stacked-images.expanded img:nth-child(3) {
+  transform: translateX(220px) rotate(5deg);
 }
 .intro-content h1 {
   font-size: 4.5rem;
@@ -60,6 +88,8 @@ body {
   margin-top: 1rem;
   color: #ccc;
 }
+
+/* FOOTER */
 footer {
   display: flex;
   justify-content: space-between;
@@ -68,47 +98,29 @@ footer {
   color: #888;
 }
 
+/* LOADER */
 #loader {
   position: fixed;
   top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100vw; height: 100vh;
   background: #000;
-  z-index: 9999;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  font-family: 'Arial', sans-serif;
+  z-index: 9999;
 }
 #loader .percent {
-  font-size: 7rem;
-  color: white;
-  font-weight: bold;
+  font-size: 4rem;
+  color: #fff;
+  margin-bottom: 1rem;
 }
 #loader .bar {
-  width: 2px;
-  height: 7rem;
-  background: white;
-  margin-left: 1rem;
-  animation: blink 1s infinite;
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
-
-.intro-content .stacked-images {
-  position: relative;
-  height: 320px;
-  width: 250px;
-  margin: 0 auto 2rem;
-}
-
-.intro {
-  animation: fadeDown 1s ease-out forwards;
-  opacity: 0;
-  transform: translateY(-50px);
+  width: 0;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 4px;
+  transition: width 0.2s ease;
 }
 
 @keyframes fadeDown {
@@ -118,117 +130,319 @@ footer {
   }
 }
 
+.intro {
+  animation: fadeDown 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+/* GALLERY SLIDER */
 .gallery {
   padding: 6rem 2rem;
-  text-align: center;
   background: #000;
+  text-align: center;
 }
 .gallery-title {
   font-size: 4rem;
   margin-bottom: 3rem;
   font-weight: 700;
 }
-.gallery-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-}
-.gallery-card {
-  width: 240px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease-out;
-}
-.gallery-card img {
-  width: 100%;
-  border-radius: 4px;
-}
-.gallery-card p {
-  margin-top: 0.5rem;
+.gallery-count {
+  margin-bottom: 2.5rem;
   font-size: 1rem;
-  font-weight: 300;
+  color: #ccc;
+  display: block;
+}
+
+.gallery-slider {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 860px;
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+}
+.prev-arrow { left: -30px; }
+.next-arrow { right: -30px; }
+
+.slider-item {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.5s ease;
+  overflow: visible;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slider-item.prev {
+  left: 5%;
+  width: 20%;
+  opacity: 0.4;
+  z-index: 1;
+  transform: scale(0.8);
+}
+.slider-item.current {
+  left: 50%;
+  width: 70%;
+  opacity: 1;
+  z-index: 2;
+  transform: translateX(-50%) scale(1);
+}
+.slider-item.next {
+  right: 5%;
+  width: 20%;
+  opacity: 0.4;
+  z-index: 1;
+  transform: scale(0.8);
+}
+.slider-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+.slider-item .caption {
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+  pointer-events: none;
+  padding: 0 1rem;
+}
+.slider-item .caption h3 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+.slider-item .caption span {
+  font-size: 1rem;
   color: #ccc;
 }
-.gallery-card.visible {
-  opacity: 1;
-  transform: translateY(0);
+
+@media (max-width: 768px) {
+  .slider-item.prev, .slider-item.next {
+    display: none;
+  }
+  .slider-item.current {
+    left: 50%;
+    width: 90%;
+    transform: translateX(-50%) scale(1);
+  }
+  .prev-arrow, .next-arrow {
+    display: none;
+  }
 }
 
-.intro-content .stacked-images.expanded img:nth-child(1) {
-  transform: translateX(-220px) rotate(-5deg);
-}
-.intro-content .stacked-images.expanded img:nth-child(2) {
-  transform: translateX(0px) rotate(0deg);
-}
-.intro-content .stacked-images.expanded img:nth-child(3) {
-  transform: translateX(220px) rotate(5deg);
-}
-.intro-content .stacked-images img {
-  transition: all 1s ease-in-out;
+/* YOUTUBE 추천 섹션 */
+.youtube-section {
+  background-color: #000;
+  color: #fff;
+  padding: 60px 20px;
 }
 
-.featured-gallery .gallery-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 2rem 0;
-  border-top: 1px solid #333;
-  margin-top: 4rem;
-  color: white;
-}
-.featured-gallery .gallery-footer h2 {
-  font-size: 6rem;
-  margin: 0;
-}
-.featured-gallery .gallery-footer h3 {
-  font-size: 3rem;
-  margin: 0;
+.youtube-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.poster-track {
-  display: flex;
-  overflow-x: auto;
-  gap: 2rem;
-  padding: 1rem 4rem 4rem;
-  scroll-snap-type: x mandatory;
+.youtube-header h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
 }
-.poster-track img {
-  width: auto;
-  max-height: 420px;
+
+.youtube-header p {
+  font-size: 16px;
+  color: #ccc;
+}
+
+.youtube-content .channel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.youtube-content .channel-card {
+  background: #1a1a1a;
   border-radius: 8px;
-  scroll-snap-align: start;
-  flex-shrink: 0;
-  transition: transform 0.4s ease;
-}
-.poster-track img:hover {
-  transform: scale(1.05);
-}
-
-html, body {
-  height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-img:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+.youtube-content .channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
 }
 
-.stacked-images img {
-  transition: transform 0.5s ease-in-out;
-}
-.stacked-images img:hover {
-  transform: scale(1.25) rotate(3deg);
-  z-index: 10;
+.youtube-content .channel-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
 }
 
-.stacked-images img {
-  transition: transform 0.5s ease-in-out;
-}
-.stacked-images img:hover {
-  transform: scale(1.5) rotate(3deg);
-  z-index: 10;
+.youtube-content .card-info {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
+.youtube-content .card-info h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.youtube-content .card-info p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #ccc;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.youtube-content .subscribe-btn {
+  align-self: flex-start;
+  padding: 8px 16px;
+  border: none;
+  background: #ff0000;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.youtube-content .subscribe-btn:hover {
+  background: #e60000;
+}
+
+/* Mise-en-scène 중앙 정렬 유지 */
+.mise-meaning {
+  text-align: center;
+}
+
+/* VOTE SECTION */
+.vote-section {
+  background-color: #111;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+.vote-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+.vote-buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: #333;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.vote-buttons button:hover {
+  background: #555;
+}
+.comment-box {
+  margin-top: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.comment-box textarea {
+  width: 100%;
+  height: 100px;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  resize: none;
+  margin-bottom: 10px;
+}
+.comment-box button {
+  padding: 10px 20px;
+  border: none;
+  background: #666;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.comment-box button:hover {
+  background: #888;
+}
+/* 추가: 강조 문구 삽입 위치 */
+.youtube-section{
+  content: "\201C미쟝센을 보는 눈이 달라졌다면, 이제 당신의 시선으로 장면을 만들어보세요.\201D";
+  display: block;
+  margin-top: 80px;
+  color: #f2f1f8;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+
+.highlight-quote {
+  font-size: 2rem;
+  color: #f8f8f8;
+  text-align: center;
+  font-weight: 600;
+  margin: 80px auto 40px;
+  padding: 0 20px;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+  max-width: 960px;
+}
+.youtube-section {
+  padding: 60px 20px 40px; /* 하단 여백 추가 */
+}
+.video-section .overlay-caption {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #A388FF;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
