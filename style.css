@@ -446,3 +446,12 @@ footer {
   text-shadow: 0 0 6px rgba(0,0,0,0.6);
   white-space: nowrap;
 }
+.recommendation-quote {
+  text-align: center;
+  margin: 80px 20px 40px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f899be;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  line-height: 1.6;
+}
