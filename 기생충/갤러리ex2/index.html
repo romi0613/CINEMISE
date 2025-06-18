@@ -1,0 +1,110 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>영화 미장센 분석</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 내비게이션 바 -->
+  <header class="top-nav">
+   <a href="../main.html" class="back-link">← Back</a>
+ <a href="../../../index.html" class="logo-title">CINEMISE</a>
+
+
+
+    <nav class="nav-links">
+      <a href="#">INSTAGRAM</a>
+      <a href="#">GALLERY</a>
+      <a href="#">CONTACT</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 왼쪽: 필름 스트립 네비게이션 -->
+    <aside class="film-strip">
+      <button id="up" class="nav-btn">▲</button>
+      <div class="thumbnails" id="thumbs-container">
+        <!-- 원래 이미지 3개 유지 -->
+        <img data-index="0" src="5.png" alt="원본 장면1" />
+        <img data-index="1" src="9.png" alt="원본 장면2" />
+        <img data-index="2" src="10.png" alt="원본 장면3" />
+        <!-- 새로 추가된 9개 장면 -->
+        <img data-index="3" src="1.jpg" alt="장면4" />
+        <img data-index="4" src="2.jpg" alt="장면5" />
+        <img data-index="5" src="3.png" alt="장면6" />
+        <img data-index="6" src="4.jpg" alt="장면7" />
+        <img data-index="7" src="5.jpg" alt="장면8" />
+        <img data-index="8" src="6.jpg" alt="장면9" />
+        <img data-index="9" src="7.webp" alt="장면10" />
+        <img data-index="10" src="8.jpg" alt="장면11" />
+        <img data-index="11" src="9.jpg" alt="장면12" />
+      </div>
+      <button id="down" class="nav-btn">▼</button>
+    </aside>
+
+    <!-- 중앙: 텍스트 분석 -->
+    <section class="text-area">
+      <div class="text-content">
+        <h2 id="scene-title"></h2>
+        <div id="scene-date" class="date"></div>
+        <p id="scene-desc"></p>
+      </div>
+    </section>
+
+    <!-- 오른쪽: 메인 이미지 표시 -->
+    <main class="image-area">
+      <img id="display-img" src="5.png" alt="미장센 장면" />
+    </main>
+  </div>
+
+<!-- 생략된 head 및 header는 유지하고, script 부분 아래를 교체하세요 -->
+
+<script>
+  const scenes = [
+    { src: '5.png', title: '장면 1: 지하 계단에서의 충격', date: '2025.06.18', desc: '극단적으로 어두운 채도와 흑백 대비를 활용해 캐릭터의 공포심을 강조합니다.' },
+    { src: '9.png', title: '장면 2: 반지하 화장실과 스마트폰', date: '2025.06.18', desc: '좁은 공간에서 계단 위에 앉아 있는 인물들은 빈곤한 삶의 구조를 시각화합니다.' },
+    { src: '10.png', title: '장면 3: 학습지도와 도우미', date: '2025.06.18', desc: '조명을 활용한 따뜻한 톤이 부유한 가족의 일상을 강조합니다.' },
+    { src: '1.jpg', title: '장면 4: 지하실 벨소리 영상', date: '2025.06.18', desc: '디지털 화면의 파란색 톤이 긴장감을 유도하며 감춰진 진실을 암시합니다.' },
+    { src: '2.jpg', title: '장면 5: 폭우 이후의 침수', date: '2025.06.18', desc: '빗물에 젖은 인물들이 따뜻한 색감 안에서 대조되며 계급 간 격차를 암시합니다.' },
+    { src: '3.png', title: '장면 6: 식탁과 대화', date: '2025.06.18', desc: '깔끔한 구도와 정리된 테이블은 상류층의 질서를 반영합니다.' },
+    { src: '4.jpg', title: '장면 7: 지하실 돌을 바라보는 장면', date: '2025.06.18', desc: '상징적인 소품을 클로즈업하여 인물의 바람과 무력감을 암시합니다.' },
+    { src: '5.jpg', title: '장면 8: 새로 도착한 가정부', date: '2025.06.18', desc: '정면 프레임 구도로 불청객의 등장을 강조하며 장르적 긴장을 높입니다.' },
+    { src: '6.jpg', title: '장면 9: 제시된 제안', date: '2025.06.18', desc: '부잣집 정원과 인물이 대조되며 사회적 격차를 시각적으로 보여줍니다.' },
+    { src: '7.webp', title: '장면 10: 빌딩 벽 앞의 대화', date: '2025.06.18', desc: '수직적인 벽면은 인물 간의 간극과 단절을 상징합니다.' },
+    { src: '8.jpg', title: '장면 11: 비 오는 밤', date: '2025.06.18', desc: '노란 조명과 젖은 인물들이 비극성과 절박함을 동시에 전달합니다.' },
+    { src: '9.jpg', title: '장면 12: 반지하 식사 장면', date: '2025.06.18', desc: '카메라는 낮은 각도로 빈곤한 일상을 평범하게 담아냅니다.' }
+  ];
+
+  const thumbs = document.querySelectorAll('.thumbnails img');
+  const titleEl = document.getElementById('scene-title');
+  const dateEl = document.getElementById('scene-date');
+  const descEl = document.getElementById('scene-desc');
+  const displayImg = document.getElementById('display-img');
+  const upBtn = document.getElementById('up');
+  const downBtn = document.getElementById('down');
+  let current = 0;
+
+  function selectScene(idx) {
+    current = idx;
+    const s = scenes[idx];
+    displayImg.src = s.src;
+    titleEl.textContent = s.title;
+    dateEl.textContent = s.date;
+    descEl.textContent = s.desc;
+    thumbs.forEach(t => t.classList.toggle('selected', parseInt(t.dataset.index) === idx));
+    const cont = document.getElementById('thumbs-container');
+    cont.scrollTo({ top: thumbs[idx].offsetTop - cont.offsetTop - 10, behavior: 'smooth' });
+  }
+
+  thumbs.forEach(t => t.addEventListener('click', () => selectScene(parseInt(t.dataset.index))));
+  upBtn.addEventListener('click', () => current > 0 && selectScene(current - 1));
+  downBtn.addEventListener('click', () => current < scenes.length - 1 && selectScene(current + 1));
+
+  selectScene(0);
+</script>
+
+</body>
+</html>

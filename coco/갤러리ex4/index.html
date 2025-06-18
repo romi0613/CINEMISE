@@ -1,0 +1,107 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>영화 미장센 분석</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 내비게이션 바 -->
+  <header class="top-nav">
+   <a href="../main.html" class="back-link">← Back</a>
+ <a href="../../../index.html" class="logo-title">CINEMISE</a>
+
+
+
+    <nav class="nav-links">
+      <a href="#">INSTAGRAM</a>
+      <a href="#">GALLERY</a>
+      <a href="#">CONTACT</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 왼쪽: 필름 스트립 네비게이션 -->
+    <aside class="film-strip">
+      <button id="up" class="nav-btn">▲</button>
+      <div class="thumbnails" id="thumbs-container">
+        <!-- 원래 이미지 3개 유지 -->
+        <img data-index="0" src="5.png" alt="원본 장면1" />
+        
+        <!-- 새로 추가된 9개 장면 -->
+        <img data-index="3" src="1.jpg" alt="장면4" />
+        <img data-index="4" src="2.jpg" alt="장면5" />
+        <img data-index="5" src="3.png" alt="장면6" />
+        <img data-index="6" src="4.jpg" alt="장면7" />
+        <img data-index="7" src="5.jpg" alt="장면8" />
+        <img data-index="8" src="6.jpg" alt="장면9" />
+        <img data-index="9" src="7.webp" alt="장면10" />
+        <img data-index="10" src="8.jpg" alt="장면11" />
+        <img data-index="11" src="9.jpg" alt="장면12" />
+      </div>
+      <button id="down" class="nav-btn">▼</button>
+    </aside>
+
+    <!-- 중앙: 텍스트 분석 -->
+    <section class="text-area">
+      <div class="text-content">
+        <h2 id="scene-title"></h2>
+        <div id="scene-date" class="date"></div>
+        <p id="scene-desc"></p>
+      </div>
+    </section>
+
+    <!-- 오른쪽: 메인 이미지 표시 -->
+    <main class="image-area">
+      <img id="display-img" src="5.png" alt="미장센 장면" />
+    </main>
+  </div>
+
+  <script>
+    const scenes = [
+      // 원래 3개 이미지 장면
+      { src: '5.png', title: '장면 1: 파스텔 박스 군집', date: '2025.05.25', desc: '주인공을 가운데 배치하고, 분홍빛 Mendl’s 박스를 반복해 대칭적이고 꿈결 같은 분위기를 자아냅니다.' },
+     
+      // 새로운 9개 장면
+      { src: '1.jpg', title: '장면 4: 회상과 대화', date: '2025.05.25', desc: '화려한 식당에서 두 인물이 마주 앉아 균형감 있는 대칭 구도를 형성합니다.' },
+      { src: '2.jpg', title: '장면 5: 엘리베이터 내부', date: '2025.05.25', desc: '좁은 공간에서 캐릭터 간 긴장감이 대조됩니다.' },
+      { src: '3.png', title: '장면 6: 거리 풍경', date: '2025.05.25', desc: '겨울 배경의 차가운 색채와 캐릭터의 따뜻함이 대비됩니다.' },
+      { src: '4.jpg', title: '장면 7: 궁전 복도', date: '2025.05.25', desc: '호화로운 복도 배경이 인물의 대조를 강조합니다.' },
+      { src: '5.jpg', title: '장면 8: 제과 작업', date: '2025.05.25', desc: '정교한 작업 디테일과 질감이 돋보입니다.' },
+      { src: '6.jpg', title: '장면 9: 디저트 프레젠테이션', date: '2025.05.25', desc: '중앙 디저트가 대칭과 대비 효과를 줍니다.' },
+      { src: '7.webp', title: '장면 10: 호텔 외관', date: '2025.05.25', desc: '핑크빛 호텔 전경이 동화적 이미지를 선사합니다.' },
+      { src: '8.jpg', title: '장면 11: 여주인 클로즈업', date: '2025.05.25', desc: '강렬한 클로즈업으로 인물의 존재감을 부각합니다.' },
+      { src: '9.jpg', title: '장면 12: 로비 홀', date: '2025.05.25', desc: '넓은 로비 공간이 인물의 고독감을 강조합니다.' }
+    ];
+
+    const thumbs = document.querySelectorAll('.thumbnails img');
+    const titleEl = document.getElementById('scene-title');
+    const dateEl = document.getElementById('scene-date');
+    const descEl = document.getElementById('scene-desc');
+    const displayImg = document.getElementById('display-img');
+    const upBtn = document.getElementById('up');
+    const downBtn = document.getElementById('down');
+    let current = 0;
+
+    function selectScene(idx) {
+      current = idx;
+      const s = scenes[idx];
+      displayImg.src = s.src;
+      titleEl.textContent = s.title;
+      dateEl.textContent = s.date;
+      descEl.textContent = s.desc;
+      thumbs.forEach(t => t.classList.toggle('selected', parseInt(t.dataset.index) === idx));
+      const cont = document.getElementById('thumbs-container');
+      cont.scrollTo({ top: thumbs[idx].offsetTop - cont.offsetTop - 10, behavior: 'smooth' });
+    }
+
+    thumbs.forEach(t => t.addEventListener('click', () => selectScene(parseInt(t.dataset.index))));
+    upBtn.addEventListener('click', () => current > 0 && selectScene(current - 1));
+    downBtn.addEventListener('click', () => current < scenes.length - 1 && selectScene(current + 1));
+
+    selectScene(0);
+  </script>
+</body>
+</html>

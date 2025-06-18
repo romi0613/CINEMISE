@@ -1,0 +1,94 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>영화 미장센 분석</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 상단 내비게이션 바 -->
+  <header class="top-nav">
+   <a href="../main.html" class="back-link">← Back</a>
+ <a href="../../../index.html" class="logo-title">CINEMISE</a>
+
+
+
+    <nav class="nav-links">
+      <a href="#">INSTAGRAM</a>
+      <a href="#">GALLERY</a>
+      <a href="#">CONTACT</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- 왼쪽: 필름 스트립 네비게이션 -->
+    <aside class="film-strip">
+      <button id="up" class="nav-btn">▲</button>
+      <div class="thumbnails" id="thumbs-container">
+        <!-- 원래 이미지 3개 유지 -->
+        <img data-index="0" src="image.png" alt="원본 장면1" />
+   
+        <!-- 새로 추가된 9개 장면 -->
+        <img data-index="3" src="1.jpg" alt="장면4" />
+        <img data-index="4" src="2.jpg" alt="장면5" />
+        <img data-index="5" src="3.png" alt="장면6" />
+        <img data-index="6" src="4.jpg" alt="장면7" />
+        <img data-index="7" src="5.jpg" alt="장면8" />
+       
+      </div>
+      <button id="down" class="nav-btn">▼</button>
+    </aside>
+
+    <!-- 중앙: 텍스트 분석 -->
+    <section class="text-area">
+      <div class="text-content">
+        <h2 id="scene-title"></h2>
+        <div id="scene-date" class="date"></div>
+        <p id="scene-desc"></p>
+      </div>
+    </section>
+
+   <main class="image-area">
+  <img id="display-img" src="image.png" alt="미장센 장면" />
+</main>
+</div>
+
+<script>
+  const scenes = [
+    { src: 'image.png', title: '장면 1: 첫 연습 장면', date: '2025.06.18', desc: '주인공 앤드류가 플레처 교수의 혹독한 훈련을 처음 마주하는 순간. 어둡고 긴장된 조명이 공간의 폐쇄성과 압박감을 강조합니다.' },
+    { src: '6E4o4sv9HKShSdnyGTjfYp.png', title: '장면 2: 공연 직전', date: '2025.06.18', desc: '플레처와 앤드류가 무대 위에서 대면하는 장면. 대비되는 의상이 두 인물의 긴장된 관계를 강조합니다.' },
+    { src: 'UoMQXhm2q9y2254n1X5yF1.png', title: '장면 3: 피투성이 드러머', date: '2025.06.18', desc: '피를 흘리면서도 연습을 멈추지 않는 앤드류의 클로즈업. 열정과 고통이 공존하는 극단적 장면으로, 극한의 몰입을 시각적으로 보여줍니다.' },
+    { src: 'UhhR99UzYtT6vdar73jN8L.png', title: '장면 4: "집어치워!"', date: '2025.06.18', desc: '플레처가 분노를 폭발시키는 장면. 클로즈업과 어두운 배경이 인물의 감정선을 극대화합니다.' },
+    { src: '6MqYzySNL95zaKisTGU4tA.png', title: '장면 5: 피 묻은 드럼스틱', date: '2025.06.18', desc: '피로 물든 드럼 스틱은 육체적 고통과 음악에 대한 집착을 상징합니다.' },
+    { src: 'BLtt1fw5soY2uKAP7AJiND.png', title: '장면 6: 학생을 향한 분노', date: '2025.06.18', desc: '플레처가 또 다른 연주자를 꾸짖는 장면. 광기 어린 지휘자의 집착과 불안한 공간의 긴장이 잘 드러납니다.' }
+  ];
+
+  const thumbs = document.querySelectorAll('.thumbnails img');
+  const titleEl = document.getElementById('scene-title');
+  const dateEl = document.getElementById('scene-date');
+  const descEl = document.getElementById('scene-desc');
+  const displayImg = document.getElementById('display-img');
+  const upBtn = document.getElementById('up');
+  const downBtn = document.getElementById('down');
+  let current = 0;
+
+  function selectScene(idx) {
+    current = idx;
+    const s = scenes[idx];
+    displayImg.src = s.src;
+    titleEl.textContent = s.title;
+    dateEl.textContent = s.date;
+    descEl.textContent = s.desc;
+    thumbs.forEach(t => t.classList.toggle('selected', parseInt(t.dataset.index) === idx));
+    const cont = document.getElementById('thumbs-container');
+    cont.scrollTo({ top: thumbs[idx].offsetTop - cont.offsetTop - 10, behavior: 'smooth' });
+  }
+
+  thumbs.forEach(t => t.addEventListener('click', () => selectScene(parseInt(t.dataset.index))));
+  upBtn.addEventListener('click', () => current > 0 && selectScene(current - 1));
+  downBtn.addEventListener('click', () => current < scenes.length - 1 && selectScene(current + 1));
+
+  selectScene(0);
+</script>
